@@ -7,6 +7,8 @@ import com.fundamentosplatzi.springboot.fundamentosPlatzi.bean.MyOperation;
 import com.fundamentosplatzi.springboot.fundamentosPlatzi.component.ComponentDependency;
 import com.fundamentosplatzi.springboot.fundamentosPlatzi.pojo.UserPojo;
 import org.apache.catalina.User;
+import org.apache.juli.logging.Log;
+import org.apache.juli.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -14,6 +16,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class FundamentosPlatziApplication implements CommandLineRunner {
+	 private final Log LOGGER = LogFactory.getLog(FundamentosPlatziApplication.class);
 	//Inyectar la Interfaz
 	//Atributos de la clase
 	//Clases que se usan como dependencias
@@ -43,5 +46,6 @@ public class FundamentosPlatziApplication implements CommandLineRunner {
 		myBeanWithDependency.printWithDependency();//Llamo a la propiedad y a su implementacion
 		System.out.println(myBeanWithProperties.function());
 		System.out.println(userPojo.getEmail() + "-" + userPojo.getPassword());
+		LOGGER.error("ESTO ES UN ERROR DEL APLICATIVO!");
 	}
 }
