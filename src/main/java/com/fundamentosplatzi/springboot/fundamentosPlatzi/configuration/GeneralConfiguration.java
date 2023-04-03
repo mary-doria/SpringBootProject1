@@ -34,7 +34,7 @@ public class GeneralConfiguration {
         //Se relaciona toda la configuracion con la base de datos
         DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
         dataSourceBuilder.driverClassName("org.h2.Driver");
-        dataSourceBuilder.url("jdbc:h2:mem_testdb");
+        dataSourceBuilder.url("jdbc:h2:mem:testDB");
         dataSourceBuilder.username("SA");
         dataSourceBuilder.password("");
         return dataSourceBuilder.build();

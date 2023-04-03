@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity //Se Creo una entidad user
-@Table(name="user")
+@Table(name="users")
 public class User {
     @Id //se agrego un ID para esa entidad
     @GeneratedValue(strategy = GenerationType.AUTO) //Cada que tengamos un registro se va a Autogenerar
