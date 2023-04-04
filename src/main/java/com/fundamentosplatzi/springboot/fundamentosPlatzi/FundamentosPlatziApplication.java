@@ -61,7 +61,9 @@ public class FundamentosPlatziApplication implements CommandLineRunner {
 	public void run(String... args)  {
 		//ejemplosAnteriores();
 		//saveUsersInDataBase();
-		getInformationJpqlFromUser();
+		//getInformationJpqlFromUser();
+		//queryMethod();
+		queryMethod2();
 
 
 	}
@@ -73,12 +75,17 @@ public class FundamentosPlatziApplication implements CommandLineRunner {
 		userRepository.findAndSort("user", Sort.by("id").descending())
 				.stream()
 				.forEach(user -> LOGGER.info("Usuario con metodo sort" + user));
+	}
 
+	private void queryMethod(){
+		userRepository.findByName("Mary")
+				.stream()
+				.forEach(user -> LOGGER.info("Usuario con query Method" + user));
 	}
 
 	private void saveUsersInDataBase(){
-		User user1 = new User("Mary" , "mary@domain.com" , "1999");
-		User user2 = new User("Zoe" , "zoe@domain.com" , "2014");
+		User user1 = new User("user" , "mary@domain.com" , "1999");
+		User user2 = new User("user2" , "zoe@domain.com" , "2014");
 		User user3 = new User("Atena" , "atena@domain.com" , "2018");
 		User user4 = new User("Matt" , "matt@domain.com" , "2022");
 		//User usergirl= new User("Neko" , "nekodelicioso@domain.com" , "2002");
@@ -89,7 +96,27 @@ public class FundamentosPlatziApplication implements CommandLineRunner {
 		User user9 = new User("Gato" , "gato@domain.com" , "2001");
 		List<User> list = Arrays.asList(user1,user2,user3,user4,user5,user6,user7,user9);//Lista de tipo User
 		list.stream().forEach(userRepository::save);
-		System.out.println(list);
+	//
+	}
+
+	private void queryMethod2(){
+
+		/*userRepository.findByNameLike("%M%")
+				.stream()
+				.forEach(user -> LOGGER.info("Usuario findByNameLike" +  user));
+
+		userRepository.findByNameOrEmail("%g%", null)
+				.stream()
+				.forEach(user -> LOGGER.info("Usuario findByNameOrEmail" +  user));
+				*/
+
+
+		userRepository.findByNameLike("%user%")
+				.stream()
+				.forEach(user -> LOGGER.info("Usuario findByNameLike" + user));
+
+		userRepository.getAllByNameAndEmail("Mary" ,"mary@domain.com");
+
 	}
 
 	private  void ejemplosAnteriores(){
