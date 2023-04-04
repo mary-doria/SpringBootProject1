@@ -8,6 +8,7 @@ import com.fundamentosplatzi.springboot.fundamentosPlatzi.component.ComponentDep
 import com.fundamentosplatzi.springboot.fundamentosPlatzi.entity.User;
 import com.fundamentosplatzi.springboot.fundamentosPlatzi.pojo.UserPojo;
 import com.fundamentosplatzi.springboot.fundamentosPlatzi.repository.UserRepository;
+import com.fundamentosplatzi.springboot.fundamentosPlatzi.service.UserService;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -32,15 +33,17 @@ public class FundamentosPlatziApplication implements CommandLineRunner {
 	private MyBeanWithProperties myBeanWithProperties;
 	private UserPojo userPojo;
 	private UserRepository userRepository;
+	private UserService userService;
 
     //Constructor
-	public FundamentosPlatziApplication(@Qualifier("componentTwoImplement") ComponentDependency componentDependency, MyBean myBean, MyBeanWithDependency myBeanWithDependency, MyBeanWithProperties myBeanWithProperties, UserPojo userPojo, UserRepository userRepository){//Crear nuestro constructor de la clase
+	public FundamentosPlatziApplication(@Qualifier("componentTwoImplement") ComponentDependency componentDependency, MyBean myBean, MyBeanWithDependency myBeanWithDependency, MyBeanWithProperties myBeanWithProperties, UserPojo userPojo, UserRepository userRepository, UserService userService){//Crear nuestro constructor de la clase
 		this.componentDependency = componentDependency;
 		this.myBean = myBean; //Llamamos a la propiedad myBean al paraemtro myBean
 		this.myBeanWithDependency = myBeanWithDependency;
 		this.myBeanWithProperties = myBeanWithProperties;
 		this.userPojo = userPojo;
 		this.userRepository = userRepository;
+		this.userService = userService;
 
 	}
 
@@ -63,8 +66,8 @@ public class FundamentosPlatziApplication implements CommandLineRunner {
 		//saveUsersInDataBase();
 		//getInformationJpqlFromUser();
 		//queryMethod();
-		queryMethod2();
-
+		//queryMethod2();
+		saveWithErrorTransactional();
 
 	}
 	private void getInformationJpqlFromUser(){
@@ -97,6 +100,18 @@ public class FundamentosPlatziApplication implements CommandLineRunner {
 		List<User> list = Arrays.asList(user1,user2,user3,user4,user5,user6,user7,user9);//Lista de tipo User
 		list.stream().forEach(userRepository::save);
 	//
+	}
+
+	private void saveWithErrorTransactional(){
+		User test1 = new User("TestTransactional1", "TestTransactiona1@domain.com","Hola1");
+		User test2 = new User("TestTransactional2", "TestTransactiona2@domain.com","Hola2");
+		User test3 = new User("TestTransactional3", "TestTransactiona3@domain.com","Hola3");
+		List<User> users = Arrays.asList(test1,test2,test3);
+
+		userService.saveTransactional(users);
+		userService.getAllUsers().stream()
+				.forEach(user -> LOGGER.info("Este es el usuario en el metodo transaccional" + user));
+
 	}
 
 	private void queryMethod2(){
